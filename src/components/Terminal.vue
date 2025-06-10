@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { commandHistoryStore } from '@/stores/commandHistory.store';
-import clear from '@/commands/clear';
 import { availableCommands, clearCommand, commandNotFoundCommand, helpCommand, whoamiCommand } from '@/utils/commands';
 
 const terminalInput = ref<HTMLElement | null>(null);
