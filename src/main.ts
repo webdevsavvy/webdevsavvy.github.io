@@ -5,4 +5,4 @@ import { githubStore } from './stores/github.store'
 
 createApp(App).mount('#app')
 
-await githubStore.fetchRepositories();
+githubStore.fetchRepositories();
