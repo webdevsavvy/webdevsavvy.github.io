@@ -1,5 +1,6 @@
 import { githubStore } from "@/stores/github.store";
 import type { Command } from "@/types/commands";
+import { pad } from "@/utils/strings";
 
 const availableCommands = ["clear", "whoami", "help", "ls"];
 
@@ -50,7 +51,7 @@ function helpCommand() {
     const helpOutput = document.createElement("div");
     helpOutput.innerHTML = "The available commands:";
     helpOutput.innerHTML += availableCommands.reduce((acc, command) => {
-        acc += `  <span class="bold">${command}</span>: ${
+        acc += `  <span class="bold">${pad(command, 10)}</span>${
             commandDescriptions[command as Command]
         }<br>`;
         return acc;
