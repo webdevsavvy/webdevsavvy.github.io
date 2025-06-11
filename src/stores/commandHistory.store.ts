@@ -1,12 +1,6 @@
 import { reactive } from "vue";
+import type { CommandHistoryStore } from "@/types/commands";
 
-type CommandHistoryStore = {
-    history: Array<string>;
-    historyIndex: number | null;
-    addCommandToHistory: Function;
-    previousCommand: Function;
-    nextCommand: Function;
-};
 
 export const commandHistoryStore = reactive<CommandHistoryStore>({
     history: [],

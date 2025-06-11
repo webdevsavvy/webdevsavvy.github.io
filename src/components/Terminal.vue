@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { commandHistoryStore } from '@/stores/commandHistory.store';
-import { availableCommands, clearCommand, commandNotFoundCommand, helpCommand, whoamiCommand } from '@/utils/commands';
+import { availableCommands, clearCommand, commandNotFoundCommand, helpCommand, lsCommand, whoamiCommand } from '@/utils/commands';
 
 const terminalInput = ref<HTMLElement | null>(null);
 const terminalContent = ref<HTMLElement | null>(null);
@@ -113,13 +113,14 @@ const handleTerminalInputKeyDown = (event: KeyboardEvent) => {
     }
 };
 
-const runCommand = (command: string) => {
+const runCommand = async (command: string) => {
     commandHistoryStore.addCommandToHistory(command);
 
     switch (command) {
         case "clear": clearCommand(); break;
         case "whoami": whoamiCommand(); break;
         case "help": helpCommand(); break;
+        case "ls": await lsCommand(); break;
         default: commandNotFoundCommand(command); break;
     }
 
@@ -133,8 +134,8 @@ const runCommand = (command: string) => {
         <div class="terminal-content" ref="terminalContent">
             <div class="terminal-line" id="input-terminal-line">
                 <span class="prompt" v-html="terminalPrompt"></span>
-                <input class="terminal-input" value="" type="text" ref="terminalInput"
-                    @keydown="handleTerminalInputKeyDown">
+                <input class="terminal-input" value="" type="text" ref="terminalInput" autocomplete="off"
+                    autocorrect="off" autocapitalize="off" spellcheck="false" @keydown="handleTerminalInputKeyDown">
             </div>
         </div>
     </div>
@@ -146,14 +147,15 @@ const runCommand = (command: string) => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 600px;
-    width: 1000px;
+    height: 800px;
+    width: 1200px;
     background-color: #000;
     border-radius: 8px;
     padding: 16px;
     color: #0f0;
     font-family: monospace;
-    overflow: hidden; /* Change from auto to hidden */
+    overflow: hidden;
+    /* Change from auto to hidden */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     text-align: left;
     transition: box-shadow 0.3s ease;
@@ -174,7 +176,8 @@ const runCommand = (command: string) => {
     user-select: text;
     overflow-y: auto;
     padding-right: 5px;
-    scroll-behavior: smooth; /* Add smooth scrolling */
+    scroll-behavior: smooth;
+    /* Add smooth scrolling */
 
     &:focus {
         outline: none;
